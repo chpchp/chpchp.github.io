@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>Safety Proofs for MultiPaxos, Viewstamped Replication</h1>
+    <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p>
+
+    <h2>MultiPaxos</h2>
+
+    <p>
+    First, we prove that Paxos is safe. That is, we prove that in any execution
+    of Paxos, at most one value is chosen. This proof is taken directly from
+    the
+    <a href="https://scholar.google.com/scholar?cluster=14312418264184334702">Fast Paxos paper</a>.
+    To prove that Paxos is safe, we prove the following assertion $P(i)$ for
+    all rounds $i$.
+    </p>
+
+    <div class="assertion">
+      $P(i)$: If an acceptor votes for value $v$ in round $i$, then no value
+      other than $v$ has been or will be chosen in any round less than $i$.
+    </div>
+
+    <p>
+    $P(i)$ suffices to prove that Paxos is safe. Why? Well assume for
+    contradiction that Paxos chooses two distinct values $x$ and $y$ in rounds
+    $i$ and $j$ with $i \lt j$. For $y$ to be chosen in round $j$, some
+    acceptor must have voted for $y$ in round $j$. But, $P(j)$ then tells us
+    that $x$ could not have been chosen in round $i$, a contradiction.
+    </p>
+
+    <p>
+    We prove $P(i)$ by induction on $i$. $P(0)$ is vacuous since there are no
+    rounds less than $0$. For the general case $P(i)$, we note that an acceptor
+    cannot vote for a value $v$ in round $i$ unless the leader of round $i$
+    proposes it. Thus, we perform a case analysis on the code path that the
+    propser takes and show that in all cases, the proposer only proposes value
+    $v$ in round $i$ if no value other than $v$ has been or will be chosen in
+    any round less than $i$.
+    </p>
+
+    <p>
+    Recall that at the end of Phase 1 and at the beginning of Phase 2, the
+    proposer inspects the Phase1b messages that it received from a quorum of
+    acceptors and computes
+    </p>
+
+    <ul>
+      <li>
+        $k$, the largest round in which the quorum voted, or $-1$ if none of
+        the acceptors in the quorum have voted, and
+      </li>
+      <li>
+        $v$, the value voted for in round $k$, or null if $k$ is $-1$. Note
+        that at most one value can be proposed in a given round, so $v$ is
+        guaranteed to be unique for a given $k$.
+      </li>
+    </ul>
+
+    <p>
+    First suppose that $k \neq -1$. In this case, the proposer proposes $v$. We
+    have to prove that no value other than $v$ has been chosen or will be
+    chosen in any round $j \lt i$. We perform a case analysis on $j$. There are
+    three cases to consider, as illustrated below.
+    </p>
+
+    <svg viewBox="0 0 420 120">
+      <line x1="10" x2="410" y1="50" y2="50" stroke="black" stroke-width="2"/>
+      <line x1="10" x2="10" y1="40" y2="60" stroke="black" stroke-width="2" stroke-linecap="round"/>
+      <line x1="210" x2="210" y1="40" y2="60" stroke="black" stroke-width="2" stroke-linecap="round"/>
+      <line x1="410" x2="410" y1="40" y2="60" stroke="black" stroke-width="2" stroke-linecap="round"/>
+      <text x="10" y="35" text-anchor="middle">-1</text>
+      <text x="210" y="35" text-anchor="middle">k</text>
+      <text x="410" y="35" text-anchor="middle">i</text>
+      <line x1="20" x2="110" y1="65" y2="75" stroke="gray" stroke-width="1.5"/>
+      <line x1="110" x2="200" y1="75" y2="65" stroke="gray" stroke-width="1.5"/>
+      <line x1="220" x2="310" y1="65" y2="75" stroke="gray" stroke-width="1.5"/>
+      <line x1="310" x2="400" y1="75" y2="65" stroke="gray" stroke-width="1.5"/>
+      <line x1="210" x2="210" y1="65" y2="75" stroke="gray" stroke-width="1.5"/>
+      <text x="110" y="95" text-anchor="middle">Case 3</text>
+      <text x="210" y="95" text-anchor="middle">Case 2</text>
+      <text x="310" y="95" text-anchor="middle">Case 1</text>
+    </svg>
+
+
+    <ul>
+      <li>
+        <strong>Case 1 &ndash; $k \lt j \lt i$</strong>:
+        The quorum $Q$ of replicas that the leader contacted in Phase 1 have
+        all promised to never vote in a round less than $i$. At the same time,
+        none have voted in a round greater than $k$. Recall that $k$ is the
+        <em>largest</em> round in which an acceptor in the quorum voted. Thus,
+        the replicas in $Q$ have not voted and will never vote in round $j$.
+        In order for a value to be chosen in round $j$, a quorum of replicas
+        must vote for it in round $j$, but any such quorum will intersect $Q$.
+        Thus, no value at all has been or ever will be chosen in round $j$.
+      </li>
+
+      <li>
+        <strong>Case 2 &ndash; $j = k$</strong>:
+        We must show that no value other than $v$ has been or will be chosen in
+        round $k$. This is straightforward because at most one value is
+        proposed in any given round (let alone chosen), and $v$ was
+        <em>the</em> value proposed in round $k$.
+      </li>
+
+      <li>
+        <strong>Case 3 &ndash; $j \lt k$</strong>:
+        We induct. $P(k)$ tells us that no value other than $v$ has been or
+        will be chosen in any round less than $k$. This is exactly what we're
+        trying to prove.
+      </li>
+    </ul>
+
+    <p>
+    If $k = -1$, then we are in Case 1 above. No value at all has been or will
+    be chosen in any round less than $i$, so the proposer is free to propose
+    any value it desires.
+    </p>
+
+    Paxos is safe, and MultiPaxos simply executes one instance of Paxos for
+    every log entry, so MultiPaxos is safe too.
+
+    <h2>Viewstamped Replication</h2>
+    <p>
+    We now prove that Viewstamped Replication (VR) is safe using a similar
+    proof to the one we used for Paxos. We ignore recovery and reconfiguration.
+    Section 8.1 of the VR paper discusses safety, but the discussion is a bit
+    short (at least short enough that I didn't understand it without thinking
+    really hard). The proof we show here mixes together Paxos' safety proof
+    with the ideas in section 8.1 of the VR paper.
+    </p>
+
+    <p>
+    More carefully, we prove that at most one value can be chosen in every log
+    entry. To do so, we prove, for every view $i$, the assertion $P(i)$:
+    </p>
+
+    <div class="assertion">
+      $P(i)$: When the leader of view $i$ begins view $i$, if log entry $s$ is
+      empty, then no value has been or will be chosen in log entry $s$ in any
+      view less than $i$. If log entry $s$ contains a value $v$, then no value
+      other than $v$ has been or will chosen in log entry $s$ in any view less
+      than $i$.
+    </div>
+
+    <p>
+    You might think, based on the language in the VR paper, that we should try
+    to prove an assertion like this:
+    </p>
+
+    <div class="bad-assertion">
+      $P(i)$: If a value $v$ has been chosen in log entry $s$ in a view less
+      than $i$, then the leader of view $i$ begins with $v$ in entry $s$.
+    </div>
+
+    <p>
+    But this is a bit problematic. We say "$v$ has been chosen", but when? At
+    the time when the leader of view $i$ begins? But what if the leader begins
+    without a value $v$ in entry $s$ because, at that time, the value $v$ was
+    not chosen, but then the value goes on to be chosen later? I tried
+    rewording the assertion to include language like "If a value $v$ has been
+    or could be chosen in log entry $s$", but the assertion always felt a
+    little weak. The assertion we settled on is a little verbose, but it seems
+    the most rigorous.
+    </p>
+
+    <p>
+    Anyway, back to the proof. $P(i)$ suffices to prove that VR is safe. Why?
+    Well assume for contradiction that VR chooses two distinct values $x$ and
+    $y$ in the same log entry $s$ in views $i$ and $j$ with $i \lt j$. Either
+    the leader of view $j$ begins with entry $s$ empty or not. If it's empty,
+    then $P(j)$ tells us that $x$ could not have been chosen in view $i$, a
+    contradiction.  If it's not empty, then it must contain $y$ since a leader
+    only appends to its log, and the leader got $y$ chosen in view $j$. Now
+    $P(j)$ tells us that no value other than $y$ has been or will be chosen in
+    entry $s$ in any view less than $i$, but $x$ was chosen, a contradiction.
+    </p>
+
+    <p>
+    We prove $P(i)$ by induction on $i$. $P(0)$ is vacuous since there are no
+    views less than $0$. For the general case $P(i)$, recall that the leader of
+    view $i$ waits to receive DoViewChange messages from a quorum of the
+    replicas. It then computes, $k$, the largest view in which a replica in the
+    quorum was executing normally and adopts the longest log in view $k$ as its
+    log.
+    </p>
+
+    <p>
+    First suppose that the leader of view $i$ begins with value $v$ in log
+    entry $s$. We must show that no value other than $v$ has been or will be
+    chosen in entry $s$ in any view $j$ less than $i$. We perform a case
+    analysis on $j$. Note that $k \geq 0$ since the log is non-empty.
+    </p>
+
+    <ul>
+      <li>
+        <strong>Case 1 &ndash; $k \lt j \lt i$</strong>:
+        The quorum $Q$ of replicas from which the leader of view $i$ received
+        DoViewChange messages all promised to never vote in a view less than
+        $i$ (by incrementing their view before sending StartViewChange
+        messages). At the same time, none have operated normally in a view
+        greater than $k$. To vote for a value in a given view, a replica must
+        be operating normally in that view. Thus, the replicas in $Q$ have not
+        voted and will never vote in view $j$.  In order for a value to be
+        chosen in view $j$, a quorum of replicas must vote for it in view
+        $j$, but any such quorum will intersect $Q$. Thus, no value at all has
+        been or ever will be chosen in view $j$.
+      </li>
+
+      <li>
+        <strong>Case 2 &ndash; $j = k$</strong>:
+        The leader of view $k$ either began with $v$ in log entry $s$ (maybe
+        already chosen) or later inserted it. In any of these cases, the leader
+        proposes at most one value per log entry in a given view. Thus, no
+        value other than $v$ could have been proposed, let alone chosen, in log
+        entry $s$ in view $k$.
+      </li>
+
+      <li>
+        <strong>Case 3 &ndash; $j \lt k$</strong>:
+        The leader of view $k$ either began with $v$ in its log entry or it did
+        not. $P(k)$ tells us that no value other than $v$ (if it did) or no
+        value at all (if it didn't) has been or will be chosen in log entry $s$
+        in any view less than $k$, which is exactly what we're trying to prove.
+      </li>
+    </ul>
+
+    <p>
+    Now suppose that the leader of view $i$ begins with no value in log entry
+    $s$. We must show that no value has been or will be chosen in any view $j$
+    less than $i$. If $k = -1$, then we are in Case 1 above. Otherwise, $k \neq
+    -1$.  We again perform a case analysis on $j$.
+    </p>
+
+    <ul>
+      <li>
+        <strong>Case 1 &ndash; $k \lt j \lt i$</strong>:
+        This is identical to Case 1 above.
+      </li>
+
+      <li>
+        <strong>Case 2 &ndash; $j = k$</strong>:
+        This is similar to Case 1. Say the leader of view $i$ begins with a log
+        of size $n$. Then, the quorum $Q$ of replicas that the leader contacted
+        in Phase 1 have all <em>not</em> voted for any value in any log entry
+        $n$ or larger in view $k$. Recall that the leader begins with the
+        longest log from view $k$.  Thus, the replicas in $Q$ have not voted
+        and will never vote in round $k$ for any log entry $n$ or larger, in
+        particular, entry $s$.  In order for a value to be chosen in round $k$
+        in entry $s$, a quorum of replicas must vote for it in round $k$, but
+        any such quorum will intersect $Q$.  Thus, no value at all has been or
+        ever will be chosen in round $k$ in entry $s$.
+      </li>
+
+      <li>
+        <strong>Case 3 &ndash; $j \lt k$</strong>:
+        The leader of view $k$ did not begin with a value in entry $s$. If it
+        did, then we would have received it, since every replica begins a view
+        with the log from the leader. Thus, $P(k)$ tells us that no value at
+        all has been or will be chosen in log entry $s$ in any view less than
+        $k$, which is exactly what we're trying to prove.
+      </li>
+    </ul>
+
+    <h2>Raft</h2>
+  </div>
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
