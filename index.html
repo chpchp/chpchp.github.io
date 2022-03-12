@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Michael Whittaker</title>
+  <title>Pei Chen</title>
   <link href="style.css" rel="stylesheet">
-  <link rel="canonical" href="https://mwhittaker.github.io"/>
+  <link rel="canonical" href="https://chpchp.github.io"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
         content="The homepage of Michael Whittaker, a PhD student at UC Berkeley
@@ -42,7 +42,7 @@
 <body>
   <div id="container">
     <center>
-      <h1 id="name">Michael Whittaker</h1>
+      <h1 id="name">Pei Chen</h1>
     </center>
 
     <div id="leftright">
@@ -51,8 +51,8 @@
           <img id="headshot" src="headshot.jpg" alt="headshot"><br/>
           <div id="links">
             <p><a href="/blog">[Blog]</a></p>
-            <p><a href="https://github.com/mwhittaker">[GitHub]</a></p>
-            <p><a href="https://scholar.google.com/citations?user=bgmagbUAAAAJ">[Google Scholar]</a></p>
+            <p><a href="https://github.com/chpchp">[GitHub]</a></p>
+            <p><a href="">[Google Scholar]</a></p>
           </div>
         </center>
       </div>
@@ -61,27 +61,21 @@
         <div id="about">
           <h2>About</h2>
           <p>
-          I recently graduated with a PhD from UC Berkeley studying distributed
-          systems and databases under Professor <a
-          href="http://db.cs.berkeley.edu/jmh/">Joe Hellerstein</a> as part of
-          the <a href="https://rise.cs.berkeley.edu/">RISE Lab</a>. My thesis
-          focused on making state machine replication protocols faster,
-          simpler, and easier to implement. During grad school, I had the
-          amazing opportunity to collaborate with Adriana Szekeres, Ailidani
-          Ailijiang, Aleksey Charapko, Cristina Teodoropol, Dan Ports, Faisal
-          Nawab, Heidi Howard, Ion Stoica, Irene Zhang, James B. Wendt, Jialin
-          Li, Marc Najork, Murat Demirbas, Naveen Sharma, Neil Giridharan, Nick
-          Edmonds, Peter Alvaro, and Sandeep Tata.
+          I recently graduated with a Master of Science from Tsinghua University studying distributed
+          systems and storage systems under Professor <a
+          href="http://storage.cs.tsinghua.edu.cn/~jiwu-shu/">Jiwu Shu</a> and 
+          <a href="http://storage.cs.tsinghua.edu.cn/~lu/">Youyou Lu</a> as part of
+          the <a href="http://storage.cs.tsinghua.edu.cn">Storage Research Group</a>. 
+          My thesis focused on SmartNIC-based shared log system. 
+          During grad school, I had the amazing opportunity to collaborate with 
+          Qing Wang, Youmin Chen, Zhe Yang, Bohong Zhu, Junru Li, Jian Gao.
           </p>
 
           <p>
-          As an undergraduate at Cornell University, I researched under
+          As an undergraduate at Central South University, I researched under
           Professor
-          <a href="http://www.cs.cornell.edu/~jnfoster/">Nate Foster</a>
-          and worked on a system called
-          <a href="publications/felix_SOSR16.pdf">Felix</a>
-          which measures network traffic on end hosts by leveraging
-          <a href="http://www.cs.cornell.edu/~jnfoster/papers/frenetic-netkat.pdf">NetKAT</a>.
+          <a href="https://faculty.csu.edu.cn/wangweiping/zh_CN/index.htm">Weiping Wang</a>
+          .
           </p>
         </div>
 
@@ -107,250 +101,85 @@
         <!--   </ul> -->
         <!-- </div> -->
 
+        <!-- Todo List -->
         <div id="publications">
           <h2>Publications</h2>
 
           <ul class="paper_list">
             <li>
               <span class="papertitle">
-                <a href="publications/matchmaker_paxos.pdf">
-                  "Matchmaker Paxos: A Reconfigurable Consensus Protocol"
+                <a href="https://chpchp.github.io">
+                  "Research on the Technology of SmartNIC-based 
+                  Multi-read and Multi-write Log System"
                 </a>
               </span>
               <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Neil Giridharan,
-                Adriana Szekeres,
-                Joseph M. Hellerstein,
-                Heidi Howard,
-                Faisal Nawab,
-                Ion Stoica.
+                <span class="me">Pei Chen</span>.
               </span>
               <span class="papervenue">
-                JSys 2021.
-              </span>
-              <a href="https://github.com/mwhittaker/frankenpaxos">[code]</a>
-              <a href="https://mwhittaker.github.io/frankenpaxos/js/src/main/js/matchmakerpaxos/matchmakerpaxos.html">[Matchmaker Paxos visualization]</a>
-              <a href="https://mwhittaker.github.io/frankenpaxos/js/src/main/js/matchmakermultipaxos/matchmakermultipaxos.html">[Matchmaker MultiPaxos visualization]</a>
-              <a href="publications/matchmaker_paxos.html">[more info]</a>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/bipartisan_paxos.pdf">
-                  "A Generalized Multi-Leader State Machine Replication
-                  Tutorial"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Neil Giridharan,
-                Adriana Szekeres,
-                Joseph M. Hellerstein,
-                Ion Stoica.
-              </span>
-              <span class="papervenue">
-                JSys 2021.
-              </span>
-              <a href="https://github.com/mwhittaker/frankenpaxos">[code]</a>
-              <a href="publications/bipartisan_paxos.html">[more info]</a>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/thesis.pdf">
-                  "Compartmentalizing State Machine Replication"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>.
-              </span>
-              <span class="papervenue">
-                UC Berkeley PhD Thesis.
-              </span>
-            </li>
-
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/compartmentalized_paxos.pdf">
-                  "Scaling Replicated State Machines with Compartmentalization"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Ailidani Ailijiang,
-                Aleksey Charapko,
-                Murat Demirbas,
-                Neil Giridharan,
-                Joseph M. Hellerstein,
-                Heidi Howard,
-                Ion Stoica,
-                Adriana Szekeres.
-              </span>
-              <span class="papervenue">
-                VLDB 2021.
-              </span>
-              <a href="https://arxiv.org/abs/2012.15762">[technical report]</a>
-              <a href="https://youtu.be/LWFml1LFIqc">[talk]</a>
-              <a href="https://github.com/mwhittaker/frankenpaxos">[code]</a>
-              <a href="https://mwhittaker.github.io/frankenpaxos/js/src/main/js/multipaxos/multipaxos.html">[visualization]</a>
-              <a href="publications/compartmentalized_paxos.html">[more info]</a>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/quoracle.pdf">
-                  "Read-Write Quorum Systems Made Practical"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Aleksey Charapko,
-                Joseph M. Hellerstein,
-                Heidi Howard,
-                Ion Stoica.
-              </span>
-              <span class="papervenue">
-                PaPoC 2021.
-              </span>
-              <a href="https://github.com/mwhittaker/quoracle">[code]</a>
-              <a href="https://www.youtube.com/watch?v=CRLw9PcK8d4">[talk]</a>
-              <a href="publications/quoracle_slides.pdf">[slides]</a>
-              <a href="publications/quoracle.html">[more info]</a>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/iconfluence_vldbj2020.pdf">
-                  "Interactive Checks for Coordination Avoidance"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Joseph M. Hellerstein.
-              </span>
-              <span class="papervenue">
-                The VLDB Journal 2020.
+                Tsinghua Master Thesis.
               </span>
             </li>
 
             <li>
               <span class="papertitle">
-                <a href="publications/iconfluence_sigmod_record_2020.pdf">
-                  "Checking Invariant Confluence, In Whole or In Parts"
+                <a href="https://ieeexplore.ieee.org/abstract/document/8464251">
+                  "Efficient and Consistent NVMM Cache for SSD-based File System."
                 </a>
               </span>
               <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Joseph M. Hellerstein.
+                Youmin Chen,
+                Youyou Lu,
+                <span class="me">Pei Chen</span>,
+                Jiwu Shu.
               </span>
               <span class="papervenue">
-                SIGMOD Record, June 2020, SIGMOD Research Highlights Issue.
+                Tos 2018.
+              </span>
+            </li>
+
+          </ul>
+          <h2>Patents</h2>
+
+          <ul class="paper_list">
+            <li>
+              <span class="papertitle">
+                <a href="https://chpchp.github.io">
+                  "一种基于远程直接内存访问 RDMA 的内存通信方法及装置"
+                </a>
+              </span>
+              <span class="paperauthors">
+                陆游游,
+                舒继武,
+                陈游旻,
+                <span class="me">陈佩</span>,
+                徐君,
+                林芃.
+              </span>
+              <span class="papervenue">
+                发明专利.
               </span>
             </li>
 
             <li>
               <span class="papertitle">
-                <a href="https://dada.cs.washington.edu/research/tr/2019/11/UW-CSE-19-11-02.pdf">
-                  "Meerkat: Multicore-Scalable Replicated Transactions Following the Zero-Coordination Principle"
+                <a href="https://chpchp.github.io">
+                  "一种分布式持久性内存的全局地址空间管理方法"
                 </a>
               </span>
               <span class="paperauthors">
-                Adriana Szekeres,
-                <span class="me">Michael Whittaker</span>,
-                Jialin Li,
-                Naveen Sharma,
-                Arvind Krishnamurthy,
-                Dan Ports,
-                Irene Zhang.
+                舒继武,
+                陈游旻,
+                汪庆,
+                <span class="me">陈佩</span>,
+                陆游游.
               </span>
               <span class="papervenue">
-                EuroSys 2020.
+                发明专利.
               </span>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/crusher_VLDB19.pdf">
-                  "Online Template Induction for Machine-Generated Emails"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Nick Edmonds,
-                Sandeep Tata,
-                James B. Wendt,
-                Marc Najork.
-              </span>
-              <span class="papervenue">
-                VLDB 2019.
-              </span>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/iconfluence_VLDB19.pdf">
-                  "Interactive Checks for Coordination Avoidance"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Joseph M. Hellerstein.
-              </span>
-              <span class="papervenue">
-                VLDB 2019.
-              </span>
-              <a href="publications/iconfluence_VLDB19_tr.pdf">[technical report]</a>
-              <a href="https://github.com/mwhittaker/enforced_invariant_confluence">[code]</a>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/wat_SOCC18.pdf">
-                  "Debugging Distributed Systems with Why-Across-Time
-                  Provenance"
-                </a>
-              </span>
-              <span class="paperauthors">
-                <span class="me">Michael Whittaker</span>,
-                Cristina Teodoropol,
-                Peter Alvaro,
-                Joseph M. Hellerstein.
-              </span>
-              <span class="papervenue">
-                SOCC 2018.
-              </span>
-              <a href="publications/wat_SOCC18_errata.txt">[errata]</a>
-              <a href="publications/wat_SOCC18_tr.pdf">[technical report]</a>
-              <a href="https://github.com/mwhittaker/wat">[code]</a>
-              <a href="publications/wat_SOCC18_poster.pdf">[poster]</a>
-              <a href="publications/wat_SOCC18_slides.pdf">[pdf slides]</a>
-              <a href="https://gist.github.com/mwhittaker/894a81851820676c381c6391c807ae3e">[keynote slides]</a>
-            </li>
-
-            <li>
-              <span class="papertitle">
-                <a href="publications/felix_SOSR16.pdf">
-                  "Felix: Implementing Traffic Measurement on End Hosts Using
-                  Program Analysis"
-                </a>
-              </span>
-              <span class="paperauthors">
-                Haoxian Chen,
-                Nate Foster,
-                Jake Silverman,
-                <span class="me">Michael Whittaker</span>,
-                Brandon Zhang,
-                Rene Zhang.
-              </span>
-              <span class="papervenue">
-                SOSR 2016.
-              </span>
-              <a href="https://github.com/frenetic-lang/netkat-automata">[code]</a>
-              <a href="https://gist.github.com/mwhittaker/b3767f12eb781ffe8437">[powerpoint slides]</a>
             </li>
           </ul>
+
         </div>
       </div>
     </div>
