@@ -46,275 +46,124 @@
   </div>
 
   <div id=container>
-    <h1>Safety Proofs for MultiPaxos, Viewstamped Replication</h1>
-    <p>
+    <h1>学会把生活调成静音模式</h1>
+    <!-- <p>
     In this article, we prove that
     <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
     <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
     <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
     are safe. The proofs are not super formal, but they're hopefully rigorous
     enough to make you confident that the three protocols are all safe.
-    </p>
+    </p> -->
 
-    <h2>MultiPaxos</h2>
+    <h2>托福学习</h2>
 
-    <p>
-    First, we prove that Paxos is safe. That is, we prove that in any execution
-    of Paxos, at most one value is chosen. This proof is taken directly from
-    the
-    <a href="https://scholar.google.com/scholar?cluster=14312418264184334702">Fast Paxos paper</a>.
-    To prove that Paxos is safe, we prove the following assertion $P(i)$ for
-    all rounds $i$.
-    </p>
-
-    <div class="assertion">
-      $P(i)$: If an acceptor votes for value $v$ in round $i$, then no value
-      other than $v$ has been or will be chosen in any round less than $i$.
-    </div>
-
-    <p>
-    $P(i)$ suffices to prove that Paxos is safe. Why? Well assume for
-    contradiction that Paxos chooses two distinct values $x$ and $y$ in rounds
-    $i$ and $j$ with $i \lt j$. For $y$ to be chosen in round $j$, some
-    acceptor must have voted for $y$ in round $j$. But, $P(j)$ then tells us
-    that $x$ could not have been chosen in round $i$, a contradiction.
-    </p>
-
-    <p>
-    We prove $P(i)$ by induction on $i$. $P(0)$ is vacuous since there are no
-    rounds less than $0$. For the general case $P(i)$, we note that an acceptor
-    cannot vote for a value $v$ in round $i$ unless the leader of round $i$
-    proposes it. Thus, we perform a case analysis on the code path that the
-    propser takes and show that in all cases, the proposer only proposes value
-    $v$ in round $i$ if no value other than $v$ has been or will be chosen in
-    any round less than $i$.
-    </p>
-
-    <p>
-    Recall that at the end of Phase 1 and at the beginning of Phase 2, the
-    proposer inspects the Phase1b messages that it received from a quorum of
-    acceptors and computes
-    </p>
+   
 
     <ul>
       <li>
-        $k$, the largest round in which the quorum voted, or $-1$ if none of
-        the acceptors in the quorum have voted, and
+        练习口语一篇
       </li>
       <li>
-        $v$, the value voted for in round $k$, or null if $k$ is $-1$. Note
-        that at most one value can be proposed in a given round, so $v$ is
-        guaranteed to be unique for a given $k$.
+        精听一篇听力
+      </li>
+      <li>
+        练习一篇独立写作
+      </li>
+      <li>
+        阅读（没有按时完成阅读）
       </li>
     </ul>
 
     <p>
-    First suppose that $k \neq -1$. In this case, the proposer proposes $v$. We
-    have to prove that no value other than $v$ has been chosen or will be
-    chosen in any round $j \lt i$. We perform a case analysis on $j$. There are
-    three cases to consider, as illustrated below.
+    疫情可以毫无征兆地打乱正常人的生活。本来顺顺利利地实习、准备托福和好朋友们一起晨跑，
+    却因为突入其来的新冠阳性病例导致公司所有的人被隔离。期间在公司的工位上睡了两天，
+    凌晨一点钟搬到隔离的酒店，酒店的住宿费自己需要承担一半，其他费用自理。以前以为离自己特别远
+    的新冠感染者这几天就真实的出现在眼前。
+    
     </p>
-
-    <svg viewBox="0 0 420 120">
-      <line x1="10" x2="410" y1="50" y2="50" stroke="black" stroke-width="2"/>
-      <line x1="10" x2="10" y1="40" y2="60" stroke="black" stroke-width="2" stroke-linecap="round"/>
-      <line x1="210" x2="210" y1="40" y2="60" stroke="black" stroke-width="2" stroke-linecap="round"/>
-      <line x1="410" x2="410" y1="40" y2="60" stroke="black" stroke-width="2" stroke-linecap="round"/>
-      <text x="10" y="35" text-anchor="middle">-1</text>
-      <text x="210" y="35" text-anchor="middle">k</text>
-      <text x="410" y="35" text-anchor="middle">i</text>
-      <line x1="20" x2="110" y1="65" y2="75" stroke="gray" stroke-width="1.5"/>
-      <line x1="110" x2="200" y1="75" y2="65" stroke="gray" stroke-width="1.5"/>
-      <line x1="220" x2="310" y1="65" y2="75" stroke="gray" stroke-width="1.5"/>
-      <line x1="310" x2="400" y1="75" y2="65" stroke="gray" stroke-width="1.5"/>
-      <line x1="210" x2="210" y1="65" y2="75" stroke="gray" stroke-width="1.5"/>
-      <text x="110" y="95" text-anchor="middle">Case 3</text>
-      <text x="210" y="95" text-anchor="middle">Case 2</text>
-      <text x="310" y="95" text-anchor="middle">Case 1</text>
-    </svg>
-
-
-    <ul>
-      <li>
-        <strong>Case 1 &ndash; $k \lt j \lt i$</strong>:
-        The quorum $Q$ of replicas that the leader contacted in Phase 1 have
-        all promised to never vote in a round less than $i$. At the same time,
-        none have voted in a round greater than $k$. Recall that $k$ is the
-        <em>largest</em> round in which an acceptor in the quorum voted. Thus,
-        the replicas in $Q$ have not voted and will never vote in round $j$.
-        In order for a value to be chosen in round $j$, a quorum of replicas
-        must vote for it in round $j$, but any such quorum will intersect $Q$.
-        Thus, no value at all has been or ever will be chosen in round $j$.
-      </li>
-
-      <li>
-        <strong>Case 2 &ndash; $j = k$</strong>:
-        We must show that no value other than $v$ has been or will be chosen in
-        round $k$. This is straightforward because at most one value is
-        proposed in any given round (let alone chosen), and $v$ was
-        <em>the</em> value proposed in round $k$.
-      </li>
-
-      <li>
-        <strong>Case 3 &ndash; $j \lt k$</strong>:
-        We induct. $P(k)$ tells us that no value other than $v$ has been or
-        will be chosen in any round less than $k$. This is exactly what we're
-        trying to prove.
-      </li>
-    </ul>
-
-    <p>
-    If $k = -1$, then we are in Case 1 above. No value at all has been or will
-    be chosen in any round less than $i$, so the proposer is free to propose
-    any value it desires.
-    </p>
-
-    Paxos is safe, and MultiPaxos simply executes one instance of Paxos for
-    every log entry, so MultiPaxos is safe too.
-
-    <h2>Viewstamped Replication</h2>
-    <p>
-    We now prove that Viewstamped Replication (VR) is safe using a similar
-    proof to the one we used for Paxos. We ignore recovery and reconfiguration.
-    Section 8.1 of the VR paper discusses safety, but the discussion is a bit
-    short (at least short enough that I didn't understand it without thinking
-    really hard). The proof we show here mixes together Paxos' safety proof
-    with the ideas in section 8.1 of the VR paper.
-    </p>
-
-    <p>
-    More carefully, we prove that at most one value can be chosen in every log
-    entry. To do so, we prove, for every view $i$, the assertion $P(i)$:
-    </p>
-
-    <div class="assertion">
-      $P(i)$: When the leader of view $i$ begins view $i$, if log entry $s$ is
-      empty, then no value has been or will be chosen in log entry $s$ in any
-      view less than $i$. If log entry $s$ contains a value $v$, then no value
-      other than $v$ has been or will chosen in log entry $s$ in any view less
-      than $i$.
-    </div>
-
-    <p>
-    You might think, based on the language in the VR paper, that we should try
-    to prove an assertion like this:
-    </p>
-
     <div class="bad-assertion">
-      $P(i)$: If a value $v$ has been chosen in log entry $s$ in a view less
-      than $i$, then the leader of view $i$ begins with $v$ in entry $s$.
+      总结：努力提高自己应对未知风险，应对天灾人祸的能力在什么时候开始都不晚！
     </div>
 
+    <h2>专业领域提升</h2>
+    <div class="assertion">
+      (未按时完成)
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      今天小伙伴分享了一个“两会”书单。突然觉得自己需要提升的地方还有很多很多。
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+          你是在松懈状态还是在挑战状态？
+        </li>
+        <li>
+          习惯：把要做的事情迅速分配在calender上，会变化没关系，多调整
+        </li>
+      </ul>
+    </div>
+
+    <h2>
+      <a href="https://mp.weixin.qq.com/s/MkBvXBMExbmSXde7wHe_eg">阅读分享</a>
+    </h2>
+
     <p>
-    But this is a bit problematic. We say "$v$ has been chosen", but when? At
-    the time when the leader of view $i$ begins? But what if the leader begins
-    without a value $v$ in entry $s$ because, at that time, the value $v$ was
-    not chosen, but then the value goes on to be chosen later? I tried
-    rewording the assertion to include language like "If a value $v$ has been
-    or could be chosen in log entry $s$", but the assertion always felt a
-    little weak. The assertion we settled on is a little verbose, but it seems
-    the most rigorous.
+      有人写道：“幸福其实就是内心的宁静感。静到名利不扰，尘世不扰，己心不扰。”
+
+随着年岁增长，越发懂得，人生幸福的真谛，无外乎一个“静”字。
+
+静，是强者厚积薄发的力量源泉，更是一种智慧的处世哲学。
+
+它可以为我们屏蔽一切外界的干扰，也可以抵挡我们内心的不安。
+
+当很多人还沉迷于这个世界的喧嚣和浮躁时，真正厉害的人早已把生活调成了静音模式。
+
+因为有些话，你不需要听。
+
+有人说：“请记住：有两件事我们尽量少干，一是用自己的嘴干扰别人的人生，二是靠别人的脑子思考人生。”
+
+很多时候，我们没有办法去阻止外界的声音，甚至没办法管理好随之而来的不良情绪。
+
+只有开启静音模式，让自己的生活静下来，让自己的心静下来，才能坚定不移地往前走。
+
+很喜欢一句话：“外界的声音只是参考，你要不开心就不要参考。”
+
+我们走过的路，做过的事，很难让每个人都满意。
+
+所以，不要在别人的声音里患得患失，也不要因为别人的三言两语怀疑自己。
     </p>
 
     <p>
-    Anyway, back to the proof. $P(i)$ suffices to prove that VR is safe. Why?
-    Well assume for contradiction that VR chooses two distinct values $x$ and
-    $y$ in the same log entry $s$ in views $i$ and $j$ with $i \lt j$. Either
-    the leader of view $j$ begins with entry $s$ empty or not. If it's empty,
-    then $P(j)$ tells us that $x$ could not have been chosen in view $i$, a
-    contradiction.  If it's not empty, then it must contain $y$ since a leader
-    only appends to its log, and the leader got $y$ chosen in view $j$. Now
-    $P(j)$ tells us that no value other than $y$ has been or will be chosen in
-    entry $s$ in any view less than $i$, but $x$ was chosen, a contradiction.
+      一位作家说：“低调是为了生活在自己的世界里，高调是为了生活在别人的世界里。”
+
+越是成竹在胸的人，越是懂得低调。
+
+低调之人，言语上总是谦逊得体的，行为上总是平易近人的，不会给别人带来太大的压力，不会刻意地炫耀与攀比。
+
+正如那句话所言：“浅水是喧哗的，深水是沉默的。”
+
+低调，是一种清醒的态度。
+
+真正厉害的人，不会把实力挂在嘴边，而是把本事放在心里。
+
+毛姆在《月亮与六便士》中写道：
+
+“你要克服的是你的虚荣心，是你的炫耀欲，是你时刻想要冲出来出风头的小聪明。”
+
+越是优秀的人，越是懂得克制自己的炫耀欲，将人生调成静音模式。
+
+在得意时，懂得约束好内心的浮躁；在失意时，懂得笑对人生的无常。
+
+只有懂得收敛自己的锋芒，谦卑做人，低调行事，才能走得更长远。
     </p>
 
-    <p>
-    We prove $P(i)$ by induction on $i$. $P(0)$ is vacuous since there are no
-    views less than $0$. For the general case $P(i)$, recall that the leader of
-    view $i$ waits to receive DoViewChange messages from a quorum of the
-    replicas. It then computes, $k$, the largest view in which a replica in the
-    quorum was executing normally and adopts the longest log in view $k$ as its
-    log.
-    </p>
-
-    <p>
-    First suppose that the leader of view $i$ begins with value $v$ in log
-    entry $s$. We must show that no value other than $v$ has been or will be
-    chosen in entry $s$ in any view $j$ less than $i$. We perform a case
-    analysis on $j$. Note that $k \geq 0$ since the log is non-empty.
-    </p>
-
-    <ul>
-      <li>
-        <strong>Case 1 &ndash; $k \lt j \lt i$</strong>:
-        The quorum $Q$ of replicas from which the leader of view $i$ received
-        DoViewChange messages all promised to never vote in a view less than
-        $i$ (by incrementing their view before sending StartViewChange
-        messages). At the same time, none have operated normally in a view
-        greater than $k$. To vote for a value in a given view, a replica must
-        be operating normally in that view. Thus, the replicas in $Q$ have not
-        voted and will never vote in view $j$.  In order for a value to be
-        chosen in view $j$, a quorum of replicas must vote for it in view
-        $j$, but any such quorum will intersect $Q$. Thus, no value at all has
-        been or ever will be chosen in view $j$.
-      </li>
-
-      <li>
-        <strong>Case 2 &ndash; $j = k$</strong>:
-        The leader of view $k$ either began with $v$ in log entry $s$ (maybe
-        already chosen) or later inserted it. In any of these cases, the leader
-        proposes at most one value per log entry in a given view. Thus, no
-        value other than $v$ could have been proposed, let alone chosen, in log
-        entry $s$ in view $k$.
-      </li>
-
-      <li>
-        <strong>Case 3 &ndash; $j \lt k$</strong>:
-        The leader of view $k$ either began with $v$ in its log entry or it did
-        not. $P(k)$ tells us that no value other than $v$ (if it did) or no
-        value at all (if it didn't) has been or will be chosen in log entry $s$
-        in any view less than $k$, which is exactly what we're trying to prove.
-      </li>
-    </ul>
-
-    <p>
-    Now suppose that the leader of view $i$ begins with no value in log entry
-    $s$. We must show that no value has been or will be chosen in any view $j$
-    less than $i$. If $k = -1$, then we are in Case 1 above. Otherwise, $k \neq
-    -1$.  We again perform a case analysis on $j$.
-    </p>
-
-    <ul>
-      <li>
-        <strong>Case 1 &ndash; $k \lt j \lt i$</strong>:
-        This is identical to Case 1 above.
-      </li>
-
-      <li>
-        <strong>Case 2 &ndash; $j = k$</strong>:
-        This is similar to Case 1. Say the leader of view $i$ begins with a log
-        of size $n$. Then, the quorum $Q$ of replicas that the leader contacted
-        in Phase 1 have all <em>not</em> voted for any value in any log entry
-        $n$ or larger in view $k$. Recall that the leader begins with the
-        longest log from view $k$.  Thus, the replicas in $Q$ have not voted
-        and will never vote in round $k$ for any log entry $n$ or larger, in
-        particular, entry $s$.  In order for a value to be chosen in round $k$
-        in entry $s$, a quorum of replicas must vote for it in round $k$, but
-        any such quorum will intersect $Q$.  Thus, no value at all has been or
-        ever will be chosen in round $k$ in entry $s$.
-      </li>
-
-      <li>
-        <strong>Case 3 &ndash; $j \lt k$</strong>:
-        The leader of view $k$ did not begin with a value in entry $s$. If it
-        did, then we would have received it, since every replica begins a view
-        with the log from the leader. Thus, $P(k)$ tells us that no value at
-        all has been or will be chosen in log entry $s$ in any view less than
-        $k$, which is exactly what we're trying to prove.
-      </li>
-    </ul>
-
-    <h2>Raft</h2>
   </div>
 
   <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
