@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>学会把生活调成静音模式</h1>
+    <!-- <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p> -->
+
+    <h2>托福学习</h2>
+
+   
+
+    <ul>
+      <li>
+        练习口语一篇
+      </li>
+      <li>
+        精听一篇听力
+      </li>
+      <li>
+        练习一篇独立写作
+      </li>
+      <li>
+        阅读（没有按时完成阅读）
+      </li>
+    </ul>
+
+    <p>
+    疫情可以毫无征兆地打乱正常人的生活。本来顺顺利利地实习、准备托福和好朋友们一起晨跑，
+    却因为突入其来的新冠阳性病例导致公司所有的人被隔离。期间在公司的工位上睡了两天，
+    凌晨一点钟搬到隔离的酒店，酒店的住宿费自己需要承担一半，其他费用自理。以前以为离自己特别远
+    的新冠感染者这几天就真实的出现在眼前。
+
+    
+    </p>
+    <div class="bad-assertion">
+      总结：努力提高自己应对未知风险，应对天灾人祸的能力在什么时候开始都不晚！
+      英语真的是要每天练，每天学，一天不学就会明显退步很多。
+    </div>
+
+    <h2>专业领域提升</h2>
+    <div class="assertion">
+      (未按时完成)
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      今天小伙伴分享了一个“两会”书单。突然觉得自己需要提升的地方还有很多很多。
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+          你是在松懈状态还是在挑战状态？
+        </li>
+        <li>
+          习惯：把要做的事情迅速分配在calender上，会变化没关系，多调整
+        </li>
+      </ul>
+    </div>
+
+    <h2>
+      <a href="https://mp.weixin.qq.com/s/MkBvXBMExbmSXde7wHe_eg">阅读分享（学会把生活调成静音模式）</a>
+    </h2>
+
+    <p>
+      有人写道：“幸福其实就是内心的宁静感。静到名利不扰，尘世不扰，己心不扰。”
+
+随着年岁增长，越发懂得，人生幸福的真谛，无外乎一个“静”字。
+
+静，是强者厚积薄发的力量源泉，更是一种智慧的处世哲学。
+
+它可以为我们屏蔽一切外界的干扰，也可以抵挡我们内心的不安。
+
+当很多人还沉迷于这个世界的喧嚣和浮躁时，真正厉害的人早已把生活调成了静音模式。
+
+因为有些话，你不需要听。
+
+有人说：“请记住：有两件事我们尽量少干，一是用自己的嘴干扰别人的人生，二是靠别人的脑子思考人生。”
+
+很多时候，我们没有办法去阻止外界的声音，甚至没办法管理好随之而来的不良情绪。
+
+只有开启静音模式，让自己的生活静下来，让自己的心静下来，才能坚定不移地往前走。
+
+很喜欢一句话：“外界的声音只是参考，你要不开心就不要参考。”
+
+我们走过的路，做过的事，很难让每个人都满意。
+
+所以，不要在别人的声音里患得患失，也不要因为别人的三言两语怀疑自己。
+    </p>
+
+    <p>
+      一位作家说：“低调是为了生活在自己的世界里，高调是为了生活在别人的世界里。”
+
+越是成竹在胸的人，越是懂得低调。
+
+低调之人，言语上总是谦逊得体的，行为上总是平易近人的，不会给别人带来太大的压力，不会刻意地炫耀与攀比。
+
+正如那句话所言：“浅水是喧哗的，深水是沉默的。”
+
+低调，是一种清醒的态度。
+
+真正厉害的人，不会把实力挂在嘴边，而是把本事放在心里。
+
+毛姆在《月亮与六便士》中写道：
+
+“你要克服的是你的虚荣心，是你的炫耀欲，是你时刻想要冲出来出风头的小聪明。”
+
+越是优秀的人，越是懂得克制自己的炫耀欲，将人生调成静音模式。
+
+在得意时，懂得约束好内心的浮躁；在失意时，懂得笑对人生的无常。
+
+只有懂得收敛自己的锋芒，谦卑做人，低调行事，才能走得更长远。
+    </p>
+
+  </div>
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
