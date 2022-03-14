@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>努力让自己少点遗憾</h1>
+    <!-- <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p> -->
+
+    <h2>托福学习</h2>
+
+   
+
+    <ul>
+      <li>
+        练习口语一篇（没有按时完成）
+      </li>
+      <li>
+        精听一篇听力（没有按时完成）
+      </li>
+      <li>
+        练习一篇综合写作
+      </li>
+      <li>
+        精读一篇阅读
+      </li>
+    </ul>
+
+
+
+    <div class="bad-assertion">
+      <ul>
+        <li>
+          日常的为了养活自己的任务占据大量的时间，但又不得不去做，最重要的是怎么优化这部任务的效率，
+          因为这部分任务除了能给自己带来钱之外，没有任何的成长性可言。 
+        </li>
+        <li>
+          得复习以前学过的英语单词了！
+        </li>
+        </ul>
+      总结：学而时习之 不亦说乎 有朋自远方来 不亦乐乎 人不知而不愠 不亦君子乎。
+    </div>
+
+    <h2>专业领域提升</h2>
+    <div class="assertion">
+      回顾isolation的各种设计方式。
+      回顾了论文“serializable Snapshot Isolation in PostgreSQL”里面的知识点。
+      还是思考的不够，无法形成有效的关于这部分内容的框架，恶补！
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      看了半小时的《经济学原理》和《邓小平时代》，邓公真是个超级自律且极其理性的人
+      说话还不失艺术性，向先辈学习。
+      一切关系均可用交易原理分析！
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+          有一些人可用追求卓越来鼓舞，另一些人应以现实回报作激励，但是其实两种方法可以关联起来。
+          我是这样关联的，如：“只要我能改进耐心不足的缺点就相当于个人将增值30%”。
+        </li>
+        
+      </ul>
+    </div>
+
+    <h2>
+      <a href="https://mp.weixin.qq.com/s/I-ieEEKJl-oycH3koQAPLA">阅读分享（努力，让自己少点遗憾）</a>
+    </h2>
+
+<p>
+  每个人都会经历一段稚嫩的岁月，以为生活没有到不了的远方，人生没有做不到的事。可经历过才明白，路漫漫其修远兮，所有风光的背后，都有我们无法想象的艰辛。
+
+  当你觉得累的时候，记得告诉自己：再坚持一下。
+  
+  努力不一定会带来成功，但是不努力一定没有收获。
+  
+  人常常比想象中坚强，因为不甘弱小，所以努力强大，即使伤痕累累，也要奋力一搏。
+  
+  成功，从来都不是一夜降临，而是由无数个努力的瞬间积累起来的。眼下你吃过的苦、受过的累，都会积攒成未来的满堂喝彩。
+</p>
+
+
+
+    <p>
+      努力的意义对每个人来说都不尽相同，但可以确定的是，无论是谁，只有努力多一点，人生的遗憾才会少一点。
+  
+      生活中，我们努力让自己变得更强大，是为了当暴风雨突然来临时，可以有抵御风险的能力，无需依靠谁，自己也能撑起一片晴空。
+      
+      感情上，我们努力让自己变得更优秀，是为了当喜欢的那个人出现时，不管贫穷还是富有，我们都可以张开双臂，与对方紧紧相拥。
+      
+      人生其实有很多事情不是我们自己能够决定的，会有许多的求而不得，也会有许多的身不由己。
+      
+      我们或许左右不了命运的脚步，却可以控制自己努力的程度。
+      
+      人生最遗憾的事不是“我不行”，而是“我本可以”。当努力到达上限，无论结果如何，我们都能做到无愧于心。
+
+
+    </p>
+
+
+
+    <p>
+      我们需要努力提升自己，不迎合、攀附任何人。每个人都有无数的可能，世上最重要的事，不在于我们在何处，而在于我们朝着什么方向走。
+
+趁自己还年轻，给自己一个机会。努力奔向自己想要的生活。
+
+虽然这过程中，难免会有辛酸、委屈。但你要知道，没有谁的生活不辛苦，
+每个看似轻松光鲜的人背后，都有一段硬撑的过去，撑过白天的疲惫，撑过夜晚的孤独，坚守着最初的梦和爱，用日夜的打拼争取向往的生活。
+
+有句话说：“我不怕千万人阻挡，只怕自己投降。”
+
+这一生，我们只有多些拼搏和不认输，才能少些悔恨和遗憾。
+
+请给自己定个小目标，然后坚定不移地去实现吧。请相信，越努力，越幸运。
+    </p>
+
+    <p>
+      固执己见的人，不愿接受新的事物，活在自己的世界里。
+
+世界之大，远超过我们的眼界可以容纳的范围，走得快或慢不是影响一个人未来的决定因素，真正珍贵的东西是所思和所见。
+
+所以，只有不断提升自己，强大认知，才能终身受益。
+
+有一句名言说：“博观而约取，厚积而薄发。” 
+
+千万不要抱着一成不变的态度去生活，因为总有一些改变超出了我们固有的认知。
+
+强化自己的认知，主动成长进步，未来的路才能越走越宽。
+    </p>
+
+
+
+
+
+  </div>
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
