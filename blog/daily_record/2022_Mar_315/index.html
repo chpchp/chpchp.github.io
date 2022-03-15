@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>深耕自己，圈子自会找到你</h1>
+    <!-- <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p> -->
+
+    <h2>托福学习</h2>
+
+   
+
+    <ul>
+      <li>
+        练习口语一篇（没有按时完成）
+      </li>
+      <li>
+        精听两篇听力
+      </li>
+      <li>
+        练习一篇综合写作
+      </li>
+      <li>
+        精读一篇阅读（没有按时完成）
+      </li>
+    </ul>
+
+
+
+    <div class="bad-assertion">
+      <ul>
+        <li>
+          我居然还是会很在乎上级领导对我的评价和反应。在乎世俗意义的不一定的评价标准。
+          没有自己对重要性事情思考的能力，也没有充实的内心和对重要的评判能力。反思！ 
+        </li>
+        <li>
+          得复习以前学过的英语单词了！
+        </li>
+        </ul>
+      总结：作为日常的事情之后还是要尝试做自己。
+    </div>
+
+    <h2>专业领域提升</h2>
+    <div class="assertion">
+      今天听了关于近数据处理的talk，还是很大的前景的。
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      看了一小时的《经济学原理》和《邓小平时代》，邓公真是个超级自律且极其理性的人。
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+          最近重读到稻盛和夫的《活法》，其中提到专注投入，
+          其中举的陶瓷工艺改进的例子尤其令我深刻。
+          我们做每一件事（写一段程序，写一封邮件，写一个策划）的时候是否在想自己是否投入全力以赴的认真做了，
+          结果真的不一样？请试试：你能有多专注
+        </li>
+        
+      </ul>
+    </div>
+
+    <h2>
+      <a href="https://mp.weixin.qq.com/s/IxF4IYjMv71hT-8HG9lCqQ">阅读分享（深耕自己，圈子自会找到你）</a>
+    </h2>
+
+    <h3>
+        欲当大事，必须笃实
+    </h3>
+
+<p>
+    有句话讲：真正的人脉不是你求来的，是你吸引来的。
+
+    这就是“吸引力法则”：你是谁，就会遇见谁。
+    
+    相同磁场的人，才会相互吸引。同等能量的人，才会聚在一起。
+    
+    正所谓：“同声相应，同气相求。”
+    
+    个人想要破圈，自己需要先成为优秀的人，才能获得跻身一个优秀圈子的资格。
+    
+    所谓人脉，其实是一个随着个人成长而水到渠成的结果。
+    
+    在网上有一个很火的问题：“如何走出人生低谷？”
+    
+    有一个高赞回答写道：“多走几步。”
+    
+    很多人做事是七秒钟初心，三分钟热度，还有多少人愿意踏踏实实地深耕磨砺自己呢？
+    
+    欲当大事，必须笃实。
+    
+    一个人只有走了足够多的路，能力积累到了一定高度，人生才会是另一番境遇，才会遇见更高质量的圈子，才会成就更好的自己。
+</p>
+
+
+
+    <p>
+        有位作家曾说，我们这个时代最不缺的就是聪明人，最缺的其实是与自己死磕的“笨人”。
+
+        时代在发展，人们拥有了更多的选择，但好像也很难再长时间坚持一件事。
+        
+        在时间面前，我们能做的，便是日拱一卒，功不唐捐。
+        
+        一位书法家曾有砚铭：“惟砚作田，咸歌乐岁，墨稼有秋，笔耕无税。”视笔墨为生，以砚台作田。
+        
+        另一位著名画家也专门刻了一枚“砚田老农”的印章，以此自勉。
+        
+        即便人到晚年，依旧日日作画、从未间断。从早晨到夜晚，不是默坐构思，就是伏案挥毫。
+        
+        不管是哪一个领域，凡成大事者，都懂得深耕自己。
+        
+        人生不求多，只求精，在自己的领域下沉下心来，以一颗匠心踏实深耕，方能有所成就。
+        
+        只有肯下苦功夫的“笨人”，才是离成功最近的人。
+        
+        就像有位作家说的那样：“大师都是很笨的人。只有很笨的人才肯下苦功，才会坚持不懈登上顶峰，才会十年磨一剑，一剑号江湖。”
+
+
+    </p>
+
+
+
+    <p>
+        无论哪个领域，一个人想要“出众”，从来没有捷径，都必须经过时间的磨炼。
+
+        忘掉所有那些“不可能”的借口，去坚持那一个“没问题”的理由。
+        
+        人生就像鹅卵石，要经过不断地打磨才会变得完美。
+        
+        生活不可能处处充满惊喜，想要的生活要靠自己去创造，总是埋怨和等待是行不通的。
+        
+        人需要做的就是沉下心，脚踏实地，躬身深耕，练好自己的本事，把握住人生的每一次机会。
+        
+        能坚持别人不能坚持的，才能拥有别人不能拥有的。
+        
+        君当终日乾乾，熬过万丈孤独，踏过万水千程，与最好的自己温柔重逢。
+    </p>
+
+
+
+
+
+
+
+  </div>
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
