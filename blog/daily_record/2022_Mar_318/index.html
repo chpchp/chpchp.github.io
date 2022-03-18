@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>今天生病了</h1>
+    <!-- <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p> -->
+
+    <h2>托福学习</h2>
+
+   
+
+    <ul>
+      <li>
+        练习口语一篇（没有按时完成）
+      </li>
+      <li>
+        精听一篇听力
+      </li>
+      <li>
+        练习一篇独立写作(没有按时完成)
+      </li>
+      <li>
+        精读一篇阅读（没有按时完成）
+      </li>
+    </ul>
+
+
+
+    <div class="bad-assertion">
+      <ul>
+        <li>
+          身体是革命的本钱
+        </li>
+        
+        </ul>
+      
+    </div>
+
+    <!-- <h2>专业领域提升</h2>
+    <div class="assertion">
+      回顾isolation的各种设计方式。
+      参考论文“serializable Snapshot Isolation in PostgreSQL”，等考完英语，写一篇关于这块知识部分的综述。
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      看了半小时的《经济学原理》，经济学中的很多原理都可以用到事业和其他生活的方方面面，
+      比如“重大权衡取舍”的原理在生活的任何方面都能用得到。
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+          劳动光荣！比优秀的人更认真，对自己负责，对用户负责。放假时间要更认真！
+        </li>
+        <li>
+          我给自己贴了 创业，技术，管理，创新，自省 标签
+        </li>
+      </ul>
+    </div>
+
+    <h2>
+      <a href="https://mp.weixin.qq.com/s/aIk1BKuhgzZzDdTn8MSx3w">阅读分享（强大自己）</a>
+    </h2>
+
+<p>
+  强大自己，是胜过他人的不二法门。
+
+唯有迎难而上，不断强大自己，才能得到命运的馈赠，世界也会对你和颜悦色。
+</p>
+
+<h3>
+  强大身体
+</h3>
+
+    <p>
+      身体好，就是一个人最了不起的本钱。
+
+      每天规律作息，运动健身，看似没必要，其实拥有一个强大的身体，比什么都重要。 
+      
+      因为人生就是一场长跑，有健康的体魄，才能成为最后的赢家。
+      
+      古语有云：“留得五湖明月在，不愁无处下金钩。”
+      
+      拥有健康，哪怕你身处低谷，都有逆风翻盘的可能；失去健康，就算你日进斗金，都会在瞬间化为泡影。
+      
+      正如一句话所说：“我们身上的每个零件都是原装， 一旦坏了，再也配不到， 别以为自己年轻，就胡闹， 等身体抗议了，才后悔莫及。 ”
+      
+      强大你的身体，健健康康地活着，就是你最大的资本和底气。
+
+
+    </p>
+
+    <h3>
+      强大内心
+    </h3>
+
+    <p>
+      我们不能改变人生中所遇是顺境还是逆境，但是可以选择强大自己的内心。
+
+毕竟，内心强大，才是解决一切的办法，让人即使处在最低的境遇里，也能活出最美的姿态。
+
+别总在意别人的眼光，别总看着别人的生活，后悔自己的选择。
+
+坚持你认为对的，做自己想做的，人生没有固定的轨迹，无论你选择怎样的生活方式，只要内心强大，都可以很精彩。
+
+而所有的成就辉煌，最初都不过是源于一颗强大的心。
+
+强大内心，是处世的智慧。
+
+不惧困境，不畏挫折，方能行稳致远，自在安然过一生。
+    </p>
+
+    <h3>
+      强大认知
+    </h3>
+
+    <p>
+      固执己见的人，不愿接受新的事物，活在自己的世界里。
+
+世界之大，远超过我们的眼界可以容纳的范围，走得快或慢不是影响一个人未来的决定因素，真正珍贵的东西是所思和所见。
+
+所以，只有不断提升自己，强大认知，才能终身受益。
+
+有一句名言说：“博观而约取，厚积而薄发。” 
+
+千万不要抱着一成不变的态度去生活，因为总有一些改变超出了我们固有的认知。
+
+强化自己的认知，主动成长进步，未来的路才能越走越宽。
+    </p>
+
+    <h3>
+      强大能力
+    </h3>
+
+    <p>
+      所谓门槛，能力够了就是门，能力不够就是槛。
+
+      当你的能力强大了，那些你遇到的难题困境将会迎刃而解。
+      
+      一种能力，知道皮毛，能勉强谋生；会了八分，可养家糊口；练到极致，方能修身齐家。 
+      
+      在滚滚的时代大潮中，强大的能力，是你安身立命的底气，也给了你勇攀高峰的自信。 
+      
+      愿你我都能从现在开始，专注自身成长，不断强大自己。
+      
+      因为只有当我们越来越强大的时候，才能抓住机遇、掌握命运，想要的一切也会随之而来。
+    </p>
+
+  </div> -->
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
