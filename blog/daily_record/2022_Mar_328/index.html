@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1><!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>丰富自己的四种方式</h1>
+    <!-- <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p> -->
+
+    <h2>托福学习</h2>
+
+   
+
+    <ul>
+      <li>
+        练习口语一篇（没有按时完成）
+      </li>
+      <li>
+        精听一篇听力
+      </li>
+      <li>
+        练习一篇独立写作 （没有按时完成）
+      </li>
+      <li>
+        精读一篇阅读（没有按时完成）
+      </li>
+    </ul>
+
+
+
+    <div class="bad-assertion">
+      
+      总结：还是得多练，多投入
+    </div>
+
+    <h2>专业领域提升</h2>
+    <div class="assertion">
+     设计接口和功能
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      看了两小时的《经济学原理》和《邓小平时代》，
+      
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+            模式、方向、战略提的很多，但是许多公司其实死在非常重要但是容易被忽略的 基础点或细节上
+        </li>
+        <li>
+            强烈的动机比方法更根本
+        </li> 
+        <li>
+            不满足之后有几种反应。1、 努力提高自己 2、尝试安慰自己 3、YY&YY4、 抱 怨牢骚记在其它人事身上
+        </li>
+        <li>
+            以前面试选拔人的时候一直没有觉得自信这个特质很重要，现在发现在一般的简
+            单的事情和工作自信不是一个重要特质，但是对于一些关键事情和职责自信就是 重要区别的特质，
+            
+            真正困难或有挑战的事往往是反向操作的或者是相对孤独的。
+        </li>
+        <li>
+            公司的激励制度和考核制度非常重要，我不知道我看的是否是特例，
+            了解到好些 公司的重要岗位管理者长期一边拿着不错的回报，一边把精力重放在折腾自己想 的事情。
+            一定要避免这种情况。(不会有人觉得这种情况存在也合理吧)
+        </li>
+      </ul>
+    </div>
+
+    <!-- <ul>
+        <li>
+            你扛得住多大的事，才能成就多大的事
+        </li>
+        <li>
+            遇事别着急，绵绵用力才能久久为功
+        </li>
+        <li>
+            生活将我们撂倒了，爬起来再战就是
+        </li>
+    </ul> -->
+
+    <h2>
+      <a href="https://mp.weixin.qq.com/s/XeP_DsxZ-BjKjA4dKDP2RA">阅读分享（丰富自己的四种方式）点击原文查看</a>
+    </h2>
+
+    <ul>
+        <li>
+            你的厚度，决定你所感受到的生活温度。
+        </li>
+        <li>
+            开阔眼界，视野所及，心之所止。
+
+        </li>
+        <li>
+           滋养灵魂，生活再忙碌繁杂，也要坚持输入精神食粮。
+        </li>
+        <li>
+            独立思考，停止思考，就等同于放弃进步和改变的可能性。
+            遇事不要只知偏听盲从，而是要养成思考的习惯，学会透过现象看本质。
+        </li>
+        <li>
+            追求品质，生活有趣无趣，好坏与否，与金钱无关，而是看你怎么对待它。
+        </li>
+        <li>
+            别怕缘聚缘散  
+        </li>
+        <li>
+            别再吝啬赞美 
+        </li>
+
+        
+   
+    </ul> 
+    
+    <p>
+        http://hk.jrj.com.cn/2017/11/01162123321137.shtml
+        涂亮
+    </p>
+   
+
+
+  </div>
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
