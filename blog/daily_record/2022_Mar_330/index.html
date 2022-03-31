@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1><!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>信任，取决于人品</h1>
+    <!-- <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p> -->
+
+    <h2>托福学习</h2>
+
+   
+
+    <ul>
+      <li>
+        练习口语一篇
+      </li>
+      <li>
+        精听一篇听力（没有按时完成）
+      </li>
+      <li>
+        练习一篇独立写作 （没有按时完成）
+      </li>
+      <li>
+        精读一篇阅读（没有按时完成）
+      </li>
+    </ul>
+
+
+
+    <div class="bad-assertion">
+      
+      总结：状态不对，就在看短视频，耍手机，这是最不好的休息方式
+    </div>
+
+    <h2>专业领域提升</h2>
+    <div class="assertion">
+      没有学习
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      看了十分钟的《经济学原理》和《邓小平时代》，
+      
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+            #书评# 创业的《给你一个亿》，感觉标题不太贴切，
+            我觉得更多的内容是@查 立观察体会的创业的各种心态和状态和创业对创业者的要求，
+            以及从感性和理性 的角度描绘创业的经历和故事。
+            其实和一个亿没什么关系(不是说怎么花钱的)。 给朋友的时，感觉书名给人的第一印象不够贴切。
+        </li>
+        <li>
+            基本定向：努力！人生吧，0 岁出场，10 岁快乐成长; 20 为情彷徨;30 基本定向;
+            40 拼命打闯; 50 回头望望;60 告老还乡;70 搓搓麻将; 80 晒晒太阳; 90 躺在床上;100 挂在墙上。
+        </li> 
+        <li>
+            有 2 个朋友 2 年前 10 万元起步创业令我佩服，今天见到一个创业者 3 年前 0 元 起步创业令我惊讶。
+        </li>
+      </ul>
+    </div>
+
+    <!-- <ul>
+        <li>
+            你扛得住多大的事，才能成就多大的事
+        </li>
+        <li>
+            遇事别着急，绵绵用力才能久久为功
+        </li>
+        <li>
+            生活将我们撂倒了，爬起来再战就是
+        </li>
+    </ul> -->
+
+    <h2>
+      <a href="https://mp.weixin.qq.com/s/N793VD8WldwLmpg6sQuuMg">阅读分享（信任，取决于人品）点击原文查看</a>
+    </h2>
+
+    <ul>
+        <li>
+            信任很贵，请别浪费。信任只有一次，失去了就找不回，请好好珍惜。
+            信任可贵，难在两心。一朝拥有，不应辜负。
+        </li>
+        <li>
+            
+            人品好的人，值得信任，能走得更长、更远。
+
+
+        </li>
+        <li>
+           
+            人心，只有一颗，不要去冷落。信任，只有一次，不要去辜负。
+        </li>
+
+        
+   
+    </ul> 
+    
+    <p>
+        http://hk.jrj.com.cn/2017/11/01162123321137.shtml
+        涂亮
+    </p>
+   
+
+
+  </div>
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
