@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1><!DOCTYPE html>
+<html>
+<head>
+  <title>Safety Proofs for MultiPaxos, Viewstamped Replication, and Raft</title>
+  <link href='/blog/css/style.css' rel='stylesheet'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+
+  <!-- Google analytics. -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-90310997-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <style>
+    .assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: lightgray;
+    }
+
+    .bad-assertion {
+      text-align: center;
+      margin-left: 24pt;
+      margin-right: 24pt;
+      background: #e74c3c88;
+    }
+
+    svg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id=header>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div id=container>
+    <h1>Critical input, critical thinking, critical output</h1>
+    <!-- <p>
+    In this article, we prove that
+    <a href="https://scholar.google.com/scholar?cluster=12753876235558083852">MultiPaxos</a>,
+    <a href="https://scholar.google.com/scholar?cluster=13000400770252658813">Viewstamped Replication</a>, and
+    <a href="https://scholar.google.com/scholar?cluster=12646889551697084617">Raft</a>
+    are safe. The proofs are not super formal, but they're hopefully rigorous
+    enough to make you confident that the three protocols are all safe.
+    </p> -->
+
+    <h2>托福学习</h2>
+
+   
+
+    <ul>
+      <li>
+        练习口语一篇(没有按时完成)
+      </li>
+      <li>
+        精听一篇听力
+      </li>
+      <li>
+        练习一篇综合写作
+      </li>
+      <li>
+        精读一篇阅读（没有按时完成）
+      </li>
+    </ul>
+
+
+
+    <div class="bad-assertion">
+      
+      总结：Because of maintain the balance between input and output, 
+      which includes body health, thinking, time and rest,
+      my body health, study and thinking plan are in a state of chaos.
+      Please prevent this from happening again. 
+    </div>
+
+    <h2>专业领域提升</h2>
+    <div class="assertion">
+      Summarize the products during intership in Bytedance, 
+      including technology topic sharing, personal growth sharing.
+    </div>
+
+    <h2>交叉领域学习</h2>
+    <div class="assertion">
+      看了一小时的《经济学原理》和《邓小平时代》，
+      
+    </div>
+
+
+    
+    <h2>总结</h2>
+    <div class="assertion">
+      <ul>
+        <li>
+            明早起来排优先级。
+        </li>
+        <li>
+            见贤思齐，见不贤而内自省。不过这主要是说对外部他人，在公司内部见贤还应 激励鼓励，见不贤还应反馈沟通。
+        </li> 
+        <li>
+            原北京台主持胡紫微对于非诚勿扰因拜金等被批评发博，
+            一针见血:我们的风气 是这几个想座宝马的女孩儿败坏的，
+            而不是一边厢开着宝马作报告，一边厢被十 几个情妇合着伙上京城告御状的男人们败坏的;
+            我们的风气是坐台小姐败坏的， 而不是跑到天上人间往女孩儿胸衣里倒酒，内裤里塞脏手的男人们败坏的。
+
+            看完了橡树网好豪哥的《疯狂的站长》，收获很多，推荐给创业的朋友，对运营 推广有帮助，
+            对创业心态有帮助。写的很坦诚很真实，喜欢这样的书。豆瓣的评分不高，好像因为有其它出版社的枪手扔板砖。
+
+        </li>
+      </ul>
+    </div>
+
+    <!-- <ul>
+        <li>
+            你扛得住多大的事，才能成就多大的事
+        </li>
+        <li>
+            遇事别着急，绵绵用力才能久久为功
+        </li>
+        <li>
+            生活将我们撂倒了，爬起来再战就是
+        </li>
+    </ul> -->
+
+    <h2>
+      讲讲我为什么每天坚持输出，并每周写一篇blog</a>
+    </h2>
+
+    <ul>
+        <li>
+            写 blog 给自己带来的价值
+            1. 每个知识工作者都应该努力成为意见领袖
+        </li>
+        <li>
+            
+            2. 写作是建立社交网络最高效的方法
+
+
+        </li>
+        <li>
+           
+            3. 写作是一种高效的招人方法
+        </li>
+        <li>
+            写 blog 给团队带来的价值
+              1. 写作和分享是一种极其有效的培训形式
+        </li>
+        <li>
+            2. 提高信息流转效率，促进跨部门、跨级沟通
+        </li>
+
+        <li>
+            为什么大家不爱写作？
+            1. 不知道写啥，灵感枯竭
+一切灵感来自于外部。一切灵感来源于实践。
+我大部分写的主题来自：
+- 跟客户的拜访交流
+- 跟飞书内其他团队的交流
+- 跟外部朋友/同行的交流
+2. 怕自己写的东西没有价值，不值得被传播
+首先要相信，每个人都有自己独特的视角。“独特的视角”跟职能、资历、经验都无关，
+只需要一双能够发现自己独特视角的眼睛。
+- 问自己，你跟别人聊天的时候，最经常被问到的问题是什么？别人关于你最好奇的点是什么？
+- 问自己，你能够进入现在工作的这家公司，最重要的原因是什么？为什么你能通过层层面试，获得这份工作？为什么你的上级认为你能胜任这份工作、ta看到了你的哪些闪光点？
+这些问题的答案，也许就是你最值得分享的话题。
+3. 写了之后怕没人看
+首先，我们要记住，好的内容会自己传播。
+但是在冷启动阶段，需要自己做自己的气氛组。
+4. 担心自己文笔不好
+写作的门槛不在于文字功底，而在于思考深度。有一句话叫 Writing is thinking。有的时候一件事情我隐约觉得自己有很多感悟，但是没有系统的框架；而当我写出来之后，自然就形成了结构化的框架。写作是最好的梳理思路的过程。
+5. 没有时间写
+首先要意识到，写作其实是帮你节省时间的。
+其实我写作最大的动力来源是：不想重复自己。
+我认为文字是最高效的传播思想的方式，远远比说话要高效很多。
+另外，我经常听到的一个常见的抱怨是：“工作太忙了，没时间写东西。”这时候我会想：写作难道不就是工作的一部分吗？
+对于知识工作者和创意类工作者来说，写作和输出就是工作中重要的一环和必须要做的事情，而不是工作之余额外的锦上添花。因为我们的工作内容就是产出创意、与他人沟通、加速信息流转。写作就是工作本身。
+企业和管理者如何更好地激励员工写作和分享
+1. 以身作则，自己写作
+2. 把写作制度化
+当我们日常工作里充斥着“重要且紧急”的事情，也许是时候自省一下，我们是否花了足够多的时间做“重要但不紧急”的事情——比如写作和沉淀。这些事情往往长期是最有价值的。
+所以得到其实是通过周报的手段，让每个管理者都每周写一篇blog。如果一个人很长时间都没有心得与体会/视野与情报，那可能说明 ta 并不适合做一个管理者。
+3. 慷慨地给予正向反馈
+作为上级，要给下属营造“被看到”的感觉，让对方知道，他们的努力和输出，你都看在眼里。
+被看到，才有动力创作。
+        </li>
+   
+    </ul> 
+    
+    <p>
+        http://hk.jrj.com.cn/2017/11/01162123321137.shtml
+        涂亮
+    </p>
+   
+
+
+  </div>
+
+  <script type="text/javascript" src="/blog/js/mathjax_config.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</body>
+</html>
